@@ -15,4 +15,3 @@ jobs:
       - run: go version
       - uses: golangci/golangci-lint-action@v3
       - run: go test -race ./...
-      - run: go tool cover -func=coverage.out
