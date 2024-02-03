@@ -1,0 +1,47 @@
+run:
+  timeout: 5m
+  tests: false
+
+linters-settings:
+  gci:
+    local-prefixes: github.com/alexeyco/devtools
+    sections:
+      - standard
+      - default
+    skip-generated: false
+    custom-order: true
+  wrapcheck:
+    ignoreSigs:
+      - fmt.Errorf
+
+linters:
+  disable:
+    - deadcode # deprecated
+    - depguard
+    - exhaustivestruct # deprecated
+    - forbidigo
+    - gochecknoglobals
+    - golint # deprecated
+    - ifshort # deprecated
+    - ireturn
+    - interfacer # deprecated
+    - maligned # deprecated
+    - nonamedreturns
+    - nosnakecase # deprecated
+    - scopelint # deprecated
+    - structcheck # deprecated
+    - varcheck # deprecated
+    - varnamelen
+  presets:
+    - bugs
+    - comment
+    - complexity
+    - error
+    - format
+    - import
+    - metalinter
+    - module
+    - performance
+    - style
+    - test
+    - unused
