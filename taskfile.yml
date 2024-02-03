@@ -31,11 +31,12 @@ tasks:
     cmds:
       - golangci-lint --exclude-use-default=false run ./...
 
-  build:
+  buildpush:
     desc: Build container
     vars:
       TAGS:
         sh: go run cmd/main.go tags
     cmds:
       - go run cmd/main.go dockerfile
-      - docker build {{ range .TAGS | splitLines }}-t alexeyco/devtools:{{ . }}-fat {{ end }}.
+      - docker build {{ range .TAGS | splitLines }}-t alexeyco/devtools:{{ . }} {{ end }}.
+      - docker push alexeyco/devtools --all-tags
