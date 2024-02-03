@@ -9,17 +9,23 @@ import (
 
 	"github.com/alecthomas/kingpin/v2"
 
+	"github.com/alexeyco/devtools/docker"
 	"github.com/alexeyco/devtools/version"
 )
 
 var (
 	app = kingpin.New("", "")
 
-	ver  = app.Command("ver", "returns actual go version")
-	tags = app.Command("tags", "returns tags")
+	tags       = app.Command("tags", "returns tags")
+	dockerfile = app.Command("dockerfile", "makes Dockerfile from template")
 )
 
-const separator = "\n"
+const (
+	separator = "\n"
+
+	source = "Dockerfile.template"
+	dest   = "Dockerfile"
+)
 
 func main() {
 	v, err := version.NewProvider(version.NewDefaultGetter()).Version()
@@ -28,14 +34,16 @@ func main() {
 	}
 
 	switch kingpin.MustParse(app.Parse(os.Args[1:])) {
-	case ver.FullCommand():
-		fmt.Println(v.String())
 	case tags.FullCommand():
 		t, err := v.Tags()
 		if err != nil {
 			log.Fatalln(err)
 		}
 
-		fmt.Println(strings.Join(t, separator))
+		fmt.Print(strings.Join(t, separator))
+	case dockerfile.FullCommand():
+		if err = docker.NewGenerator(os.DirFS(".")).Dockerfile(v, source, dest); err != nil {
+			log.Fatalln(err)
+		}
 	}
 }

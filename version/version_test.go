@@ -17,24 +17,12 @@ func TestVersion_Tags(t *testing.T) {
 		err      error
 	}{
 		{
-			name: "Ok/Major",
-			v: version.Version{
-				Major: pointer.Ptr(1),
-			},
-			expected: []string{
-				"1",
-				"latest",
-			},
-			err: nil,
-		},
-		{
 			name: "Ok/MajorMinor",
 			v: version.Version{
 				Major: pointer.Ptr(1),
 				Minor: pointer.Ptr(2),
 			},
 			expected: []string{
-				"1",
 				"1.2",
 				"latest",
 			},
@@ -48,7 +36,6 @@ func TestVersion_Tags(t *testing.T) {
 				Patch: pointer.Ptr(3),
 			},
 			expected: []string{
-				"1",
 				"1.2",
 				"1.2.3",
 				"latest",

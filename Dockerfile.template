@@ -3,7 +3,7 @@ FROM golang:{{ .Version }}-alpine AS go
 RUN go install github.com/go-task/task/v3/cmd/task@latest \
     && go install github.com/zabio3/godolint@latest
 
-FROM golangci/golangci-lint:alpine AS golangci
+FROM golangci/golangci-lint:latest-alpine AS golangci
 
 FROM golang:{{ .Version }}-alpine
 
