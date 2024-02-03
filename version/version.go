@@ -29,8 +29,6 @@ func (v Version) tags() ([]string, error) {
 		return nil, ErrEmpty
 	}
 
-	t = append(t, strconv.Itoa(*v.Major))
-
 	if v.Minor != nil {
 		t = append(t, fmt.Sprintf("%d.%d", *v.Major, *v.Minor))
 	}

@@ -33,5 +33,9 @@ tasks:
 
   build:
     desc: Build container
+    vars:
+      TAGS:
+        sh: go run cmd/main.go tags
     cmds:
-      - docker build -t alexeyco/devtools:latest .
+      - go run cmd/main.go dockerfile
+      - docker build {{ range .TAGS | splitLines }}-t alexeyco/devtools:{{ . }}-fat {{ end }}.
