@@ -1,0 +1,37 @@
+version: 3
+
+tasks:
+  tools:
+    desc: Install tools
+    cmds:
+      - go install github.com/zabio3/godolint@latest
+      - go install go.uber.org/mock/mockgen@latest
+      - godolint --version
+      - mockgen --version
+
+  tidy:
+    desc: Actualize dependencies
+    cmds:
+      - go mod tidy
+      - task: vendor
+
+  vendor:
+    desc: Install dependencies
+    cmds:
+      - go mod vendor
+      - go mod verify
+
+  mock:
+    desc: Generate mocks
+    cmds:
+      - mockgen --source internal/version/getter.go --destination internal/version/getter_mock_test.go --package version_test --typed
+
+  lint:
+    desc: Lint Dockerfile
+    cmds:
+      - golangci-lint --exclude-use-default=false run ./...
+
+  build:
+    desc: Build container
+    cmds:
+      - docker build -t alexeyco/devtools:latest .

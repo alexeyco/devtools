@@ -1,0 +1,19 @@
+FROM golang:{{ .Version }}-alpine AS go
+
+RUN go install github.com/go-task/task/v3/cmd/task@latest \
+    && go install github.com/zabio3/godolint@latest
+
+FROM golangci/golangci-lint:alpine AS golangci
+
+FROM golang:{{ .Version }}-alpine
+
+COPY --from=go /go/bin/task /usr/bin/task
+COPY --from=go /go/bin/godolint /usr/bin/godolint
+COPY --from=golangci /usr/bin/golangci-lint /usr/bin/golangci-lint
+
+RUN apk add --no-cache \
+        upx \
+    && rm -rf /var/cache/apk/* \
+    && upx --version \
+    && task --version \
+    && golangci-lint --version
